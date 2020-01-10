@@ -36,3 +36,18 @@
     transform: rotate(360deg);
   }
 }
+
+.container {
+  margin: 8px;
+  border: 1px solid lightgrey;
+  border-radius: 2px;
+}
+
+.title {
+  padding: 8px;
+}
+
+.take-list {
+  padding: 8px;
+}
+
