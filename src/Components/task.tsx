@@ -1,5 +1,7 @@
 import React from "react"
 import { Draggable, DraggableProvided, DraggableStateSnapshot } from "react-beautiful-dnd"
+import { Field, reduxForm, InjectedFormProps } from 'redux-form'
+import CompanyMultiSearchAdapter from './TEMP_multiSuggest'
 
 type IProps = {
    task: ITasks,
@@ -12,7 +14,11 @@ type ITasks = {
 }
 
 const Task = ({task, index}: IProps) => {
-    console.log(index);
+
+    const handleChange = (arr: string[]) => {
+        console.log(arr)
+    }
+
     return (
         <Draggable draggableId={task.id} index={index}>
             {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
@@ -24,6 +30,12 @@ const Task = ({task, index}: IProps) => {
 
                 >
                     Task: {task.content}
+                    <div style={{height: '150px'}}>
+                        <CompanyMultiSearchAdapter 
+                            handleChangeSelect={handleChange}
+                            label="Positions"
+                        />
+                    </div>
                 </div>
             )}
         </Draggable>
