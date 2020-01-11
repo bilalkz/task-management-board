@@ -49,5 +49,25 @@
 
 .take-list {
   padding: 8px;
+  transition: background-color 0.2s ease;
 }
 
+.task-container {
+  border: 1px solid lightgrey;
+  border-radius: 2px;
+  padding: 8px;
+  margin-bottom: 8px;
+  background-color: white;
+}
+
+.lightGreen-color {
+  background-color: lightgreen;
+}
+
+.white-color {
+  background-color: white;
+}
+
+.skyBlue-color {
+  background-color: skyblue;
+}
