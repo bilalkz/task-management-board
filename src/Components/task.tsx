@@ -23,7 +23,7 @@ const Task = ({task, index}: IProps) => {
                     className={`task-container ${snapshot.isDragging ? 'lightGreen-color': 'white-color'}`}
 
                 >
-                    {task.content}
+                    Task: {task.content}
                 </div>
             )}
         </Draggable>

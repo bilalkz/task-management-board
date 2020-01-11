@@ -9,9 +9,6 @@ const App: React.FC = () => {
 
   const onDragEnd = (result: DropResult, provided: ResponderProvided) => {
    const { destination, source, draggableId } = result
-   console.log(destination)
-   console.log(source)
-   console.log(draggableId)
    if (!destination) {
      return
    }
@@ -19,40 +16,70 @@ const App: React.FC = () => {
      return
    } 
 
-   const column = initialData.columns[source.droppableId]
-   console.log(column)
-   const newTaskIds = Array.from(column.taskIds)
-   console.log(newTaskIds)
-   newTaskIds.splice(source.index, 1)
-   console.log(newTaskIds)
-   newTaskIds.splice(destination.index, 0,draggableId)
-   console.log(newTaskIds)
+   const start = initialData.columns[source.droppableId]
+   const finish = initialData.columns[destination.droppableId]
 
-   const newColumn = {
-     ...column,
-     taskIds: newTaskIds
+   if (start === finish) {
+     const newTaskIds = Array.from(start.taskIds)
+     newTaskIds.splice(source.index, 1)
+     newTaskIds.splice(destination.index, 0,draggableId)
+  
+     const newColumn = {
+       ...start,
+       taskIds: newTaskIds
+     }
+     const newState = {
+       ...initialData,
+       columns: {
+         ...initialData.columns,
+         [newColumn.id]: newColumn
+       }
+     }
+     setInitialData(newState)
+     return
    }
+
+   //Moving from one list to another
+   const startTaskIds = Array.from(start.taskIds)
+   startTaskIds.splice(source.index, 1)
+
+   const newStart = {
+     ...start,
+     taskIds: startTaskIds
+   }
+
+   const finishTaskIds = Array.from(finish.taskIds)
+
+   finishTaskIds.splice(destination.index, 0, draggableId)
+
+   const newFinish = {
+     ...finish,
+     taskIds: finishTaskIds
+   }
+
 
    const newState = {
      ...initialData,
-     columns: {
-       ...initialData.columns,
-       [newColumn.id]: newColumn
-     }
+    columns: {
+      ...initialData.columns,
+      [newStart.id]: newStart,
+      [newFinish.id]: newFinish
+    }
    }
    setInitialData(newState)
-
   }
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
+      <div className="parent-container">
       {
         initialData.columnOrder.map(columnId => {
           const column = initialData.columns[columnId]
           const tasks = column.taskIds.map(taskId => initialData.tasks[taskId])
-          return <Column key={column.id} column={column} tasks={tasks} />
+          return <Column key={column.id} column={column} tasks={tasks} initialData={initialData} setInitialData={setInitialData} />
         })
       }
+      </div>
     </DragDropContext>
    
   );
